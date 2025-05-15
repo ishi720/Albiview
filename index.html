@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
     <meta charset="utf-8">
     <title>Albiview</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
 
     <!-- jquery -->
     <script type="text/javascript" src="./node_modules/jquery/dist/jquery.min.js"></script>
@@ -43,23 +43,21 @@
 
 <script type="text/javascript">
 
-  $(function() {
+$(function() {
+  $.ajax({
+      url: './api/fetch_directory_images.php',
+      type: 'GET',
+      dataType: 'json',
+      contentType: 'application/json',
+  }).done(function(response){
 
-$.ajax({
-        url: './api/fetch_directory_images.php',
-        type: 'GET',
-        dataType: 'json',
-        contentType: 'application/json',
-    }).done(function(response){
-
-        $("#main").html(
-          $("#main_tmpl").render(response)
-        );
-        setTimeout( function(){
-          $('#content').isotope();
-        }, 500);
-
-    }).fail(function(){
-    });
+      $("#main").html(
+        $("#main_tmpl").render(response)
+      );
+      setTimeout( function(){
+        $('#content').isotope();
+      }, 500);
+  }).fail(function(){
   });
+});
 </script>
