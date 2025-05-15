@@ -2,15 +2,15 @@
   "name": "Albiview",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.html",
   "dependencies": {
-    "isotope-layout": "^3.0.6",
-    "jquery": "^3.3.1",
-    "jsrender": "^0.9.90",
-    "lightbox2": "^2.10.0"
+    "isotope-layout": "3.x.x",
+    "jquery": "3.x.x",
+    "jsrender": "1.x.x",
+    "lightbox2": "2.x.x"
   },
   "devDependencies": {
-    "yarn": "^1.7.0"
+    "yarn": "1.x.x"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -19,9 +19,9 @@
     "type": "git",
     "url": "git+https://github.com/ishi720/Albiview.git"
   },
-  "author": "Albiview",
+  "author": "ishi720",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Albiview/Albiview/issues"
+    "url": "https://github.com/ishi720/Albiview/issues"
   }
 }
