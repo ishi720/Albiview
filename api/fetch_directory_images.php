@@ -24,10 +24,6 @@ echo json_encode($response);
 
 //画像チェック
 function img_check($extension){
-    switch ($extension) {
-        case "jpg": return true;
-        case "png": return true;
-        case "gif": return true;
-        default: return false;
-    }
+    $validExtensions = ['jpg', 'png', 'gif'];
+    return in_array(strtolower($extension), $validExtensions, true);
 }
