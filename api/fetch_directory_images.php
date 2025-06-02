@@ -24,6 +24,9 @@ echo json_encode($response);
 
 //画像チェック
 function img_check($extension){
-    $validExtensions = ['jpg', 'png', 'gif'];
+    $validExtensions = [
+        'jpg', 'jpeg', 'png', 'gif', 'webp',
+        'bmp', 'tiff', 'tif', 'svg', 'ico', 'heic', 'avif'
+    ];
     return in_array(strtolower($extension), $validExtensions, true);
 }
