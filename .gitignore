@@ -1,2 +1,5 @@
 ﻿node_modules
 
+# imgディレクトリ内のすべてを無視
+img/*
+!img/.gitkeep
