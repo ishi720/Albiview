@@ -4,17 +4,20 @@
     <meta charset="utf-8">
     <title>Albiview</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="stylesheet" href="./css/customize.css">
+
     <!-- jquery -->
     <script type="text/javascript" src="./node_modules/jquery/dist/jquery.min.js"></script>
     <!-- jsrender -->
     <script type="text/javascript" src="./node_modules/jsrender/jsrender.min.js"></script>
     <!-- isotope -->
-    <script src="./node_modules/isotope-layout/dist/isotope.pkgd.min.js"></script>
+    <script type="text/javascript" src="./node_modules/isotope-layout/dist/isotope.pkgd.min.js"></script>
     <!-- lightbox2 -->
     <link rel="stylesheet" href="./node_modules/lightbox2/dist/css/lightbox.min.css">
-    <script src="./node_modules/lightbox2/dist/js/lightbox.min.js"></script>
-</head>
+    <script type="text/javascript" src="./node_modules/lightbox2/dist/js/lightbox.min.js"></script>
+
+    <link rel="stylesheet" href="./css/customize.css">
+    <script type="text/javascript" src="./js/main.js"></script>
+  </head>
 
 <body>
     <div id="main"></div>
@@ -38,26 +41,4 @@
       <div>{{:description}}</div>
     {{/for}}
   </div>
-</script>
-
-
-<script type="text/javascript">
-
-$(function() {
-  $.ajax({
-      url: './api/fetch_directory_images.php',
-      type: 'GET',
-      dataType: 'json',
-      contentType: 'application/json',
-  }).done(function(response){
-
-      $("#main").html(
-        $("#main_tmpl").render(response)
-      );
-      setTimeout( function(){
-        $('#content').isotope();
-      }, 500);
-  }).fail(function(){
-  });
-});
 </script>
