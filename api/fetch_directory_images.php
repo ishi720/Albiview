@@ -24,7 +24,7 @@ if (is_dir($dir)) {
 header('Content-type: application/json');
 echo json_encode([
     'response_data' => $img_array
-]);
+], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 
 /**
  * 指定された拡張子が画像ファイル形式かどうかを判定
