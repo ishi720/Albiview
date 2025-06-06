@@ -6,17 +6,20 @@ declare(strict_types=1);
 $dir = "../img/" ;
 // 画像のパスを入れる配列
 $img_array = [];
-if (is_dir($dir) && $handle = opendir($dir)) {
-    while( ($file = readdir($handle)) !== false ) {
-        $extension = pathinfo($file, PATHINFO_EXTENSION);
-        //画像ファイルかチェックする
-        if (img_check($extension)) {
-            $img_array[] = "./img/" . $file;
+
+// 画像ファイルのリストを作成
+if (is_dir($dir)) {
+    $files = scandir($dir);
+    foreach ($files as $file) {
+        if (is_file($dir . $file)) {
+            $extension = pathinfo($file, PATHINFO_EXTENSION);
+            //拡張子のチェック
+            if (img_check($extension)) {
+                $img_array[] = "./img/" . $file;
+            }
         }
     }
-    closedir($handle);
 }
-
 //json形式で出力
 header('Content-type: application/json');
 echo json_encode([
