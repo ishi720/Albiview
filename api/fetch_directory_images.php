@@ -5,7 +5,7 @@ declare(strict_types=1);
 // ディレクトリのパスを指定する
 $dir = "../img/" ;
 
-//json形式で出力
+// json形式で出力
 header('Content-type: application/json');
 echo json_encode([
     'response_data' => getImageList($dir)
@@ -18,19 +18,27 @@ echo json_encode([
  * @return array 画像ファイルの相対パス配列
  */
 function getImageList(string $dir): array {
-    if (is_dir($dir)) {
-        $files = scandir($dir);
-        foreach ($files as $file) {
-            if (is_file($dir . $file)) {
-                $extension = pathinfo($file, PATHINFO_EXTENSION);
-                //拡張子のチェック
-                if (isImageExtension($extension)) {
-                    $img_array[] = "./img/" . $file;
-                }
+
+    if (!is_dir($dir)) {
+        return [];
+    }
+
+    $files = scandir($dir);
+    if ($files === false) {
+        return [];
+    }
+
+    $images = [];
+    foreach ($files as $file) {
+        if (is_file($dir . $file)) {
+            $extension = pathinfo($file, PATHINFO_EXTENSION);
+            if (isImageExtension($extension)) {
+                $images[] = "./img/" . $file;
             }
         }
     }
-    return $img_array;
+
+    return $images;
 }
 
 /**
