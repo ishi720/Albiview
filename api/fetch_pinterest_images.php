@@ -1,23 +1,23 @@
 <?php
 
-$data = [];
+declare(strict_types=1);
 
-$rss_url = "https://www.pinterest.jp/". $_GET["pint_user"] ."/feed.rss/";
-$rssData = simplexml_load_string(file_get_contents($rss_url));
+$rssUrl = "https://www.pinterest.jp/". $_GET["pint_user"] ."/feed.rss/";
+$rssData = simplexml_load_string(file_get_contents($rssUrl));
 
-$format = rss_format_get($rssData);
+$format = getRssFormat($rssData);
 switch ($format) {
     case "ATOM":
-        $info_data = atom_info_get($rssData);
-        $feed_data = atom_feed_get($rssData);
+        $infoData = atom_info_get($rssData);
+        $feedData = atom_feed_get($rssData);
         break;
     case "RSS1.0":
-        $info_data = rss1_info_get($rssData);
-        $feed_data = rss1_feed_get($rssData);
+        $infoData = rss1_info_get($rssData);
+        $feedData = rss1_feed_get($rssData);
         break;
     case "RSS2.0":
-        $info_data = rss2_info_get($rssData);
-        $feed_data = rss2_feed_get($rssData);
+        $infoData = rss2_info_get($rssData);
+        $feedData = rss2_feed_get($rssData);
         break;
     default:
         print("FORMAT ERROR\n");
@@ -26,35 +26,32 @@ switch ($format) {
 
 header('Content-type: application/json');
 
-$response = [
+echo json_encode([
     'error_status' => "0",
-    'response_feed_count' => count($feed_data),
-    'request_url' => $rss_url,
+    'response_feed_count' => count($feedData),
+    'request_url' => $rssUrl,
     'rss_format' => $format,
-    'response_info' => $info_data,
-    'response_feed' => $feed_data
-];
+    'response_info' => $infoData,
+    'response_feed' => $feedData
+], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) ;
 
-echo json_encode($response) ;
-
-/*
- function
-*/
-function rss_format_get($rssData) {
+/**
+ * RSSデータの形式を判定して返す
+ *
+ * @param SimpleXMLElement $rssData パース済みのRSSデータ
+ * @return string|null RSSの形式 ("ATOM"、"RSS1.0"、"RSS2.0")、または不明な場合は null
+ */
+function getRssFormat(SimpleXMLElement $rssData): ?string {
     if ($rssData->entry) {
-        //ATOM
         return "ATOM";
     } elseif ($rssData->item) {
-        //RSS1.0
         return "RSS1.0";
     } elseif ($rssData->channel->item) {
-        //RSS2.0
         return "RSS2.0";
     } else {
         return null;
     }
 }
-
 
 // info_get
 function rss1_info_get($rssData) {
