@@ -1,66 +1,64 @@
 <?php
 
-$data = array();
+$data = [];
 
 $rss_url = "https://www.pinterest.jp/". $_GET["pint_user"] ."/feed.rss/";
-$rssdata = simplexml_load_string(file_get_contents($rss_url));
+$rssData = simplexml_load_string(file_get_contents($rss_url));
 
-$format = rss_format_get($rssdata);
-//ATOM
-if ($format == "ATOM") {
-    $info_data = atom_info_get($rssdata);
-    $feed_data = atom_feed_get($rssdata);
-}
-//RSS1.0
-elseif ($format == "RSS1.0") {
-    $info_data = rss1_info_get($rssdata);
-    $feed_data = rss1_feed_get($rssdata);
-
-}
-//RSS2.0
-elseif ($format == "RSS2.0") {
-    $info_data = rss2_info_get($rssdata);
-    $feed_data = rss2_feed_get($rssdata);
-}
-else {
-    print("FORMAT ERROR\n");exit;
+$format = rss_format_get($rssData);
+switch ($format) {
+    case "ATOM":
+        $info_data = atom_info_get($rssData);
+        $feed_data = atom_feed_get($rssData);
+        break;
+    case "RSS1.0":
+        $info_data = rss1_info_get($rssData);
+        $feed_data = rss1_feed_get($rssData);
+        break;
+    case "RSS2.0":
+        $info_data = rss2_info_get($rssData);
+        $feed_data = rss2_feed_get($rssData);
+        break;
+    default:
+        print("FORMAT ERROR\n");
+        exit;
 }
 
 header('Content-type: application/json');
 
-$response = array();
-$response['error_status'] = "0";
-$response['response_feed_count'] = count($feed_data);
-$response['request_url'] = $rss_url;
-$response['rss_format'] = $format;
-$response['response_info'] = $info_data;
-$response['response_feed'] = $feed_data;
+$response = [
+    'error_status' => "0",
+    'response_feed_count' => count($feed_data),
+    'request_url' => $rss_url,
+    'rss_format' => $format,
+    'response_info' => $info_data,
+    'response_feed' => $feed_data
+];
 
 echo json_encode($response) ;
 
 /*
  function
 */
-function rss_format_get($rssdata) {
-    if($rssdata->entry) {
+function rss_format_get($rssData) {
+    if ($rssData->entry) {
         //ATOM
         return "ATOM";
-    } elseif ($rssdata->item) {
+    } elseif ($rssData->item) {
         //RSS1.0
         return "RSS1.0";
-    } elseif ($rssdata->channel->item) {
+    } elseif ($rssData->channel->item) {
         //RSS2.0
         return "RSS2.0";
     } else {
-        print("FORMAT ERROR");
-        exit;
+        return null;
     }
 }
 
 
 // info_get
-function rss1_info_get($rssdata) {
-    foreach ($rssdata->channel as $channel) {
+function rss1_info_get($rssData) {
+    foreach ($rssData->channel as $channel) {
         $work = array();
         foreach ($channel as $key => $value) {
             $work[$key] = (string)$value;
@@ -69,8 +67,8 @@ function rss1_info_get($rssdata) {
     }
     return $data;
 }
-function rss2_info_get($rssdata) {
-    foreach ($rssdata->channel as $channel) {
+function rss2_info_get($rssData) {
+    foreach ($rssData->channel as $channel) {
         $work = array();
         foreach ($channel as $key => $value) {
             $work[$key] = (string)$value;
@@ -79,8 +77,8 @@ function rss2_info_get($rssdata) {
     }
     return $data;
 }
-function atom_info_get($rssdata) {
-    foreach ($rssdata as $item) {
+function atom_info_get($rssData) {
+    foreach ($rssData as $item) {
         $work = array();
         $work['title'] = (string)$item;
         $data[] = $work;
@@ -89,8 +87,8 @@ function atom_info_get($rssdata) {
 }
 
 // feed_get
-function rss1_feed_get($rssdata) {
-    foreach ($rssdata->item as $item) {
+function rss1_feed_get($rssData) {
+    foreach ($rssData->item as $item) {
         $work = array();
 
         foreach ($item as $key => $value) {
@@ -111,8 +109,8 @@ function rss1_feed_get($rssdata) {
     }
     return $data;
 }
-function rss2_feed_get($rssdata) {
-    foreach ($rssdata->channel->item as $item) {
+function rss2_feed_get($rssData) {
+    foreach ($rssData->channel->item as $item) {
         $work = array();
         foreach ($item as $key => $value) {
             $work[$key] = (string)$value;
@@ -121,8 +119,8 @@ function rss2_feed_get($rssdata) {
     }
     return $data;
 }
-function atom_feed_get($rssdata){
-    foreach ($rssdata->entry as $item){
+function atom_feed_get($rssData){
+    foreach ($rssData->entry as $item){
         $work = array();
         foreach ($item as $key => $value) {
             if ($key == "link") {
