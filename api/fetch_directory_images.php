@@ -18,7 +18,7 @@ $offset = ($page - 1) * $perPage;
 $pagedImages = array_slice($allImages, $offset, $perPage);
 
 // json形式で出力
-header('Content-type: application/json');
+header('Content-Type: application/json');
 echo json_encode([
     'meta' => [
         'total' => $total,
@@ -35,11 +35,13 @@ echo json_encode([
  * @param string $dir ディレクトリパス
  * @return array 画像ファイルの相対パス配列
  */
-function getImageList(string $dir): array {
-
+function getImageList(string $dir): array
+{
     if (!is_dir($dir)) {
         return [];
     }
+
+    $files = scandir($dir) ?? [];
 
     $files = scandir($dir);
     if ($files === false) {
@@ -65,7 +67,8 @@ function getImageList(string $dir): array {
  * @param string $extension ファイルの拡張子（例: "jpg", "png"）
  * @return bool 画像ファイル形式の場合 true、それ以外は false
  */
-function isImageExtension(string $extension): bool {
+function isImageExtension(string $extension): bool
+{
     $validExtensions = [
         'jpg', 'jpeg', 'png', 'gif', 'webp',
         'bmp', 'tiff', 'tif', 'svg', 'ico', 'heic', 'avif'
