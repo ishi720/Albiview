@@ -2,12 +2,18 @@
 
 let showMode = "directory";
 let pint_user = "";
+let currentPage = 1;
+let perPage = 50;
 
 $(function() {
     if (showMode == "directory") {
         $.ajax({
             url: './api/fetch_directory_images.php',
             type: 'GET',
+            data: {
+                page: currentPage,
+                per_page: perPage
+            },
             dataType: 'json',
             contentType: 'application/json',
         }).done(function(response){

@@ -5,10 +5,28 @@ declare(strict_types=1);
 // ディレクトリのパスを指定する
 $dir = "../img/" ;
 
+// ページ関連のパラメータ取得（デフォルト: page=1, per_page=20）
+$page = max(1, isset($_GET['page']) ? (int)$_GET['page'] : 1);
+$perPage = max(1, isset($_GET['per_page']) ? (int)$_GET['per_page'] : 20);
+
+$allImages = getImageList($dir);
+$total = count($allImages);
+$totalPages = (int)ceil($total / $perPage);
+
+// ページネーション処理
+$offset = ($page - 1) * $perPage;
+$pagedImages = array_slice($allImages, $offset, $perPage);
+
 // json形式で出力
 header('Content-type: application/json');
 echo json_encode([
-    'response_data' => getImageList($dir)
+    'meta' => [
+        'total' => $total,
+        'per_page' => $perPage,
+        'current_page' => $page,
+        'total_pages' => $totalPages,
+    ],
+    'response_data' => $pagedImages
 ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 
 /**
