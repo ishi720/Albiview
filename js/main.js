@@ -6,6 +6,12 @@ let currentPage = 1;
 let perPage = 50;
 
 $(function() {
+    // Lightboxのオプション
+    lightbox.option({
+        'disableScrolling': true,
+        'wrapAround': true
+    });
+
     if (showMode == "directory") {
         $.ajax({
             url: './api/fetch_directory_images.php',
