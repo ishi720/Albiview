@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 // ディレクトリのパスを指定する
-$dir = "../img/" ;
+$dir = "../uploads/" ;
 
 // ページ関連のパラメータ取得（デフォルト: page=1, per_page=20）
 $page = max(1, isset($_GET['page']) ? (int)$_GET['page'] : 1);
@@ -53,7 +53,7 @@ function getImageList(string $dir): array
         if (is_file($dir . $file)) {
             $extension = pathinfo($file, PATHINFO_EXTENSION);
             if (isImageExtension($extension)) {
-                $images[] = "./img/" . $file;
+                $images[] = "./uploads/" . $file;
             }
         }
     }

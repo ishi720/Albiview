@@ -2,7 +2,7 @@
 header('Content-Type: application/json; charset=utf-8');
 
 // アップロード先ディレクトリ
-$upload_dir = '../img/';
+$upload_dir = '../uploads/';
 
 // ディレクトリが存在しない場合は作成
 if (!file_exists($upload_dir)) {
