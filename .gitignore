@@ -1,5 +1,7 @@
 ﻿node_modules
 
-# imgディレクトリ内のすべてを無視
-img/*
-!img/.gitkeep
+# uploadsディレクトリ内のすべてを無視
+uploads/*
+!uploads/.gitkeep
+
+config.php
