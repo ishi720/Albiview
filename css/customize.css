@@ -1,4 +1,87 @@
+#upload-section {
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+}
+
+#upload-btn {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#upload-btn:hover {
+    background-color: #45a049;
+}
+
+#upload-form {
+    margin-top: 15px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#upload-form h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+#image-files {
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+#image-upload-form button[type="submit"] {
+    padding: 8px 16px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+#image-upload-form button[type="submit"]:hover {
+    background-color: #0b7dda;
+}
+
+#cancel-btn {
+    padding: 8px 16px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#cancel-btn:hover {
+    background-color: #da190b;
+}
+
+#upload-status {
+    margin-top: 10px;
+}
+
+#upload-status p {
+    margin: 5px 0;
+}
+
+/* 画像グリッドのスタイル */
 .photo_item {
-    width: 300px;
+    max-width: 200px;
+    margin: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
     display: block;
+}
+
+.photo_item:hover {
+    transform: scale(1.05);
 }

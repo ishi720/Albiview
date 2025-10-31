@@ -21,6 +21,20 @@
   </head>
 
 <body>
+    <!-- 画像アップロードフォーム -->
+    <div id="upload-section">
+        <button id="upload-btn">画像を追加</button>
+        <div id="upload-form" style="display:none;">
+            <h3>画像をアップロード</h3>
+            <form id="image-upload-form" enctype="multipart/form-data">
+                <input type="file" name="images[]" id="image-files" multiple accept="image/*">
+                <button type="submit">アップロード</button>
+                <button type="button" id="cancel-btn">キャンセル</button>
+            </form>
+            <div id="upload-status"></div>
+        </div>
+    </div>
+
     <div id="main"></div>
 </body>
 
