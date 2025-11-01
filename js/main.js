@@ -86,7 +86,7 @@ $(function() {
         $('#upload-status').html('<p>アップロード中...</p>');
 
         $.ajax({
-            url: './api/upload_images.php',
+            url: './api/upload_directory_images.php',
             type: 'POST',
             data: formData,
             processData: false,
