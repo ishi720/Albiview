@@ -68,6 +68,44 @@ $(function() {
         $('#upload-status').html('');
     });
 
+    // 削除ボタンのクリックイベント（動的に追加される要素用）
+    $(document).on('click', '.delete_btn', function() {
+        const btn = $(this);
+        const filepath = btn.data('filename');
+        const filename = filepath.split('/').pop(); // パスからファイル名を取得
+
+        if (!confirm('「' + filename + '」を削除しますか？')) {
+            return;
+        }
+
+        // ボタンを無効化
+        btn.prop('disabled', true).text('削除中...');
+
+        $.ajax({
+            url: './api/delete_directory_image.php',
+            type: 'POST',
+            data: JSON.stringify({ filename: filename }),
+            contentType: 'application/json',
+            dataType: 'json'
+        }).done(function(response) {
+            if (response.success) {
+                // 画像コンテナをフェードアウトして削除
+                btn.closest('.photo_container').fadeOut(300, function() {
+                    $(this).remove();
+                    // Isotopeレイアウトを更新
+                    $('#content').isotope('layout');
+                });
+            } else {
+                alert('削除に失敗しました: ' + response.message);
+                btn.prop('disabled', false).text('削除');
+            }
+        }).fail(function(xhr) {
+            console.error('削除失敗', xhr);
+            alert('削除に失敗しました');
+            btn.prop('disabled', false).text('削除');
+        });
+    });
+
     // 画像アップロードフォームの送信
     $('#image-upload-form').on('submit', function(e) {
         e.preventDefault();

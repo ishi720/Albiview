@@ -73,9 +73,14 @@
 }
 
 /* 画像グリッドのスタイル */
+.photo_container {
+    display: inline-block;
+    position: relative;
+    margin: 10px;
+}
+
 .photo_item {
     max-width: 200px;
-    margin: 10px;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     transition: transform 0.2s;
@@ -84,4 +89,32 @@
 
 .photo_item:hover {
     transform: scale(1.05);
+}
+
+.delete_btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    padding: 5px 10px;
+    background-color: rgba(244, 67, 54, 0.9);
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.photo_container:hover .delete_btn {
+    opacity: 1;
+}
+
+.delete_btn:hover {
+    background-color: rgba(211, 47, 47, 1);
+}
+
+.delete_btn:disabled {
+    background-color: rgba(158, 158, 158, 0.9);
+    cursor: not-allowed;
 }

@@ -25,7 +25,10 @@ if (!isset($_FILES['images']) || empty($_FILES['images']['name'][0])) {
 }
 
 // 許可する画像形式
-$allowed_extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+$allowed_extensions = [
+    'jpg', 'jpeg', 'png', 'gif', 'webp',
+    'bmp', 'tiff', 'tif', 'svg', 'ico', 'heic', 'avif'
+];
 $allowed_mime_types = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 
 // 各ファイルを処理

@@ -43,9 +43,12 @@
 <script id="main_tmpl" type="text/x-jsrender">
   <div id="content">
     {{for response_data}}
-      <a href="{{:}}" rel="lightbox[group]">
-        <img class="photo_item" src="{{:}}">
-      </a>
+      <div class="photo_container">
+        <a href="{{:}}" rel="lightbox[group]">
+          <img class="photo_item" src="{{:}}">
+        </a>
+        <button class="delete_btn" data-filename="{{:}}">削除</button>
+      </div>
     {{/for}}
   </div>
 </script>
