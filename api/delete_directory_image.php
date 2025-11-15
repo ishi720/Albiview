@@ -1,8 +1,8 @@
 <?php
 header('Content-Type: application/json; charset=utf-8');
 
-// 画像ディレクトリのパス
-$image_dir = '../uploads/';
+// ベース画像ディレクトリのパス
+$base_image_dir = '../uploads/';
 
 // レスポンス用の配列
 $response = [
@@ -23,12 +23,17 @@ $input = json_decode(file_get_contents('php://input'), true);
 
 // ファイル名の取得（URLパラメータまたはJSONボディから）
 $filename = null;
+$folder = '';
+
 if (isset($_POST['filename'])) {
     $filename = $_POST['filename'];
+    $folder = isset($_POST['folder']) ? $_POST['folder'] : '';
 } elseif (isset($_GET['filename'])) {
     $filename = $_GET['filename'];
+    $folder = isset($_GET['folder']) ? $_GET['folder'] : '';
 } elseif (isset($input['filename'])) {
     $filename = $input['filename'];
+    $folder = isset($input['folder']) ? $input['folder'] : '';
 }
 
 // ファイル名が指定されているかチェック
@@ -42,6 +47,14 @@ if (empty($filename)) {
 // セキュリティ: ファイル名からディレクトリトラバーサル攻撃を防ぐ
 $filename = basename($filename);
 
+// フォルダが指定されている場合
+if ($folder) {
+    $folder = basename($folder);
+    $image_dir = $base_image_dir . $folder . '/';
+} else {
+    $image_dir = $base_image_dir;
+}
+
 // ファイルパスの構築
 $filepath = $image_dir . $filename;
 
@@ -54,10 +67,10 @@ if (!file_exists($filepath)) {
 }
 
 // ファイルが画像ディレクトリ内にあることを確認（セキュリティチェック）
-$real_image_dir = realpath($image_dir);
+$real_base_dir = realpath($base_image_dir);
 $real_filepath = realpath($filepath);
 
-if ($real_filepath === false || strpos($real_filepath, $real_image_dir) !== 0) {
+if ($real_filepath === false || strpos($real_filepath, $real_base_dir) !== 0) {
     $response['message'] = '不正なファイルパスです';
     http_response_code(403);
     echo json_encode($response);

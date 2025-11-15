@@ -21,18 +21,50 @@
   </head>
 
 <body>
+    <!-- フォルダ管理セクション -->
+    <div id="folder-section">
+        <button id="folder-manage-btn">フォルダ管理</button>
+        <div id="folder-list-container" style="display:none;">
+            <h3>フォルダ一覧</h3>
+            <button id="create-folder-btn">新規フォルダ作成</button>
+            <div id="folder-list"></div>
+        </div>
+    </div>
+
+    <!-- フォルダ作成モーダル -->
+    <div id="folder-create-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>新規フォルダ作成</h3>
+            <form id="folder-create-form">
+                <input type="text" id="folder-name" placeholder="フォルダ名を入力" required>
+                <button type="submit">作成</button>
+                <button type="button" class="cancel-btn">キャンセル</button>
+            </form>
+            <div id="folder-create-status"></div>
+        </div>
+    </div>
+
     <!-- 画像アップロードフォーム -->
     <div id="upload-section">
         <button id="upload-btn">画像を追加</button>
         <div id="upload-form" style="display:none;">
             <h3>画像をアップロード</h3>
             <form id="image-upload-form" enctype="multipart/form-data">
+                <select id="target-folder" name="target_folder">
+                    <option value="">ルートフォルダ</option>
+                </select>
                 <input type="file" name="images[]" id="image-files" multiple accept="image/*">
                 <button type="submit">アップロード</button>
                 <button type="button" id="cancel-btn">キャンセル</button>
             </form>
             <div id="upload-status"></div>
         </div>
+    </div>
+
+    <!-- 現在のフォルダ表示 -->
+    <div id="current-folder-display">
+        <span id="current-folder-name">すべての画像</span>
     </div>
 
     <div id="main"></div>
@@ -51,6 +83,22 @@
       </div>
     {{/for}}
   </div>
+</script>
+
+<script id="folder_list_tmpl" type="text/x-jsrender">
+  {{for folders}}
+    <div class="folder_item" data-folder="{{:path}}">
+      <div class="folder_info">
+        <span class="folder_icon">📁</span>
+        <span class="folder_name">{{:name}}</span>
+        <span class="folder_count">({{:image_count}}枚)</span>
+      </div>
+      <div class="folder_actions">
+        <button class="view_folder_btn" data-folder="{{:path}}">開く</button>
+        <button class="delete_folder_btn" data-folder="{{:path}}">削除</button>
+      </div>
+    </div>
+  {{/for}}
 </script>
 
 <script id="pint_tmpl" type="text/x-jsrender">

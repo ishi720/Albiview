@@ -1,3 +1,207 @@
+/* フォルダ管理セクション */
+#folder-section {
+    padding: 20px;
+    background-color: #e8f5e9;
+    border-bottom: 1px solid #ddd;
+}
+
+#folder-manage-btn {
+    padding: 10px 20px;
+    background-color: #FF9800;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#folder-manage-btn:hover {
+    background-color: #F57C00;
+}
+
+#folder-list-container {
+    margin-top: 15px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#folder-list-container h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+#create-folder-btn {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+#create-folder-btn:hover {
+    background-color: #45a049;
+}
+
+/* フォルダアイテム */
+.folder_item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    margin-bottom: 8px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    border: 1px solid #e0e0e0;
+    transition: background-color 0.2s;
+}
+
+.folder_item:hover {
+    background-color: #f0f0f0;
+}
+
+.folder_info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.folder_icon {
+    font-size: 20px;
+}
+
+.folder_name {
+    font-weight: bold;
+    color: #333;
+}
+
+.folder_count {
+    color: #666;
+    font-size: 14px;
+}
+
+.folder_actions {
+    display: flex;
+    gap: 8px;
+}
+
+.view_folder_btn {
+    padding: 6px 12px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.view_folder_btn:hover {
+    background-color: #0b7dda;
+}
+
+.delete_folder_btn {
+    padding: 6px 12px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.delete_folder_btn:hover {
+    background-color: #da190b;
+}
+
+.delete_folder_btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* モーダル */
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 500px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+}
+
+#folder-create-form {
+    margin-top: 20px;
+}
+
+#folder-name {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+#folder-create-form button[type="submit"] {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+#folder-create-form button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.cancel-btn {
+    padding: 10px 20px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.cancel-btn:hover {
+    background-color: #da190b;
+}
+
+#folder-create-status {
+    margin-top: 10px;
+}
+
+/* アップロードセクション */
 #upload-section {
     padding: 20px;
     background-color: #f5f5f5;
@@ -30,6 +234,16 @@
     margin-top: 0;
     margin-bottom: 15px;
     color: #333;
+}
+
+#target-folder {
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%;
+    max-width: 300px;
 }
 
 #image-files {
@@ -70,6 +284,19 @@
 
 #upload-status p {
     margin: 5px 0;
+}
+
+/* 現在のフォルダ表示 */
+#current-folder-display {
+    padding: 15px 20px;
+    background-color: #fff9c4;
+    border-bottom: 2px solid #fbc02d;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#current-folder-name {
+    color: #f57f17;
 }
 
 /* 画像グリッドのスタイル */

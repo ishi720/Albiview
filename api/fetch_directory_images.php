@@ -2,14 +2,25 @@
 
 declare(strict_types=1);
 
-// ディレクトリのパスを指定する
-$dir = "../uploads/" ;
+// ベースディレクトリのパス
+$base_dir = "../uploads/";
+
+// フォルダパラメータ取得
+$folder = isset($_GET['folder']) ? $_GET['folder'] : '';
+
+// セキュリティ: ディレクトリトラバーサル防止
+if ($folder) {
+    $folder = basename($folder);
+    $dir = $base_dir . $folder . '/';
+} else {
+    $dir = $base_dir;
+}
 
 // ページ関連のパラメータ取得（デフォルト: page=1, per_page=20）
 $page = max(1, isset($_GET['page']) ? (int)$_GET['page'] : 1);
 $perPage = max(1, isset($_GET['per_page']) ? (int)$_GET['per_page'] : 20);
 
-$allImages = getImageList($dir);
+$allImages = getImageList($dir, $folder);
 $total = count($allImages);
 $totalPages = (int)ceil($total / $perPage);
 
@@ -25,6 +36,7 @@ echo json_encode([
         'per_page' => $perPage,
         'current_page' => $page,
         'total_pages' => $totalPages,
+        'current_folder' => $folder
     ],
     'response_data' => $pagedImages
 ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
@@ -33,15 +45,14 @@ echo json_encode([
  * 指定されたディレクトリから画像ファイル一覧を取得
  *
  * @param string $dir ディレクトリパス
+ * @param string $folder フォルダ名（空の場合はルート）
  * @return array 画像ファイルの相対パス配列
  */
-function getImageList(string $dir): array
+function getImageList(string $dir, string $folder): array
 {
     if (!is_dir($dir)) {
         return [];
     }
-
-    $files = scandir($dir) ?? [];
 
     $files = scandir($dir);
     if ($files === false) {
@@ -50,10 +61,18 @@ function getImageList(string $dir): array
 
     $images = [];
     foreach ($files as $file) {
+        if ($file === '.' || $file === '..') {
+            continue;
+        }
+
         if (is_file($dir . $file)) {
             $extension = pathinfo($file, PATHINFO_EXTENSION);
             if (isImageExtension($extension)) {
-                $images[] = "./uploads/" . $file;
+                if ($folder) {
+                    $images[] = "./uploads/" . $folder . "/" . $file;
+                } else {
+                    $images[] = "./uploads/" . $file;
+                }
             }
         }
     }

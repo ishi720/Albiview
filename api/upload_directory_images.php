@@ -1,8 +1,19 @@
 <?php
 header('Content-Type: application/json; charset=utf-8');
 
-// アップロード先ディレクトリ
-$upload_dir = '../uploads/';
+// ベースアップロード先ディレクトリ
+$base_upload_dir = '../uploads/';
+
+// フォルダパラメータを取得
+$folder = isset($_POST['folder']) ? $_POST['folder'] : '';
+
+// セキュリティ: ディレクトリトラバーサル防止
+if ($folder) {
+    $folder = basename($folder);
+    $upload_dir = $base_upload_dir . $folder . '/';
+} else {
+    $upload_dir = $base_upload_dir;
+}
 
 // ディレクトリが存在しない場合は作成
 if (!file_exists($upload_dir)) {
@@ -84,7 +95,8 @@ for ($i = 0; $i < $file_count; $i++) {
 if ($uploaded_count > 0) {
     $response['success'] = true;
     $response['uploaded_count'] = $uploaded_count;
-    $response['message'] = $uploaded_count . '件の画像をアップロードしました';
+    $folder_msg = $folder ? "フォルダ「{$folder}」に" : '';
+    $response['message'] = $folder_msg . $uploaded_count . '件の画像をアップロードしました';
 } else {
     $response['message'] = '画像のアップロードに失敗しました';
 }
