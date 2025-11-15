@@ -113,12 +113,19 @@ $(function() {
         $('#folder-create-modal').fadeOut();
         $('#folder-create-form')[0].reset();
         $('#folder-create-status').html('');
+
+        $('#folder-rename-modal').fadeOut();
+        $('#folder-rename-form')[0].reset();
+        $('#folder-rename-status').html('');
     });
 
     // モーダル外クリックで閉じる
     $(window).on('click', function(e) {
         if ($(e.target).is('#folder-create-modal')) {
             $('#folder-create-modal').fadeOut();
+        }
+        if ($(e.target).is('#folder-rename-modal')) {
+            $('#folder-rename-modal').fadeOut();
         }
     });
 
@@ -171,6 +178,76 @@ $(function() {
         updateCurrentFolderDisplay();
         loadImages();
         $('#folder-list-container').slideUp();
+    });
+
+    // フォルダ名編集ボタン
+    $(document).on('click', '.rename_folder_btn', function() {
+        const folderPath = $(this).data('folder');
+        $('#rename-old-name').val(folderPath);
+        $('#rename-new-name').val(folderPath);
+        $('#folder-rename-modal').fadeIn();
+        // フォーカスを当てて選択
+        setTimeout(function() {
+            $('#rename-new-name').focus().select();
+        }, 100);
+    });
+
+    // フォルダ名変更フォームの送信
+    $('#folder-rename-form').on('submit', function(e) {
+        e.preventDefault();
+
+        const oldName = $('#rename-old-name').val();
+        const newName = $('#rename-new-name').val().trim();
+
+        if (!newName) {
+            $('#folder-rename-status').html('<p style="color:red;">新しいフォルダ名を入力してください</p>');
+            return;
+        }
+
+        if (oldName === newName) {
+            $('#folder-rename-status').html('<p style="color:red;">変更前と変更後のフォルダ名が同じです</p>');
+            return;
+        }
+
+        $('#folder-rename-status').html('<p>変更中...</p>');
+
+        $.ajax({
+            url: './api/rename_folder.php',
+            type: 'POST',
+            data: JSON.stringify({
+                old_name: oldName,
+                new_name: newName
+            }),
+            contentType: 'application/json',
+            dataType: 'json'
+        }).done(function(response) {
+            if (response.success) {
+                $('#folder-rename-status').html('<p style="color:green;">' + response.message + '</p>');
+
+                // 現在開いているフォルダが変更された場合は更新
+                if (currentFolder === oldName) {
+                    currentFolder = newName;
+                    updateCurrentFolderDisplay();
+                }
+
+                // フォルダ一覧を再読み込み
+                setTimeout(function() {
+                    loadFolders();
+                    $('#folder-rename-modal').fadeOut();
+                    $('#folder-rename-form')[0].reset();
+                    $('#folder-rename-status').html('');
+                }, 1500);
+            } else {
+                $('#folder-rename-status').html('<p style="color:red;">エラー: ' + response.message + '</p>');
+            }
+        }).fail(function(xhr) {
+            console.error('フォルダ名変更失敗', xhr);
+            let errorMsg = 'フォルダ名の変更に失敗しました';
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                errorMsg = xhr.responseJSON.message;
+            }
+            $('#folder-rename-status').html('<p style="color:red;">' + errorMsg + '</p>');
+        });
     });
 
     // フォルダ削除ボタン

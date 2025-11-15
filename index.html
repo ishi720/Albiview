@@ -45,6 +45,22 @@
         </div>
     </div>
 
+    <!-- フォルダ名編集モーダル -->
+    <div id="folder-rename-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>フォルダ名を編集</h3>
+            <form id="folder-rename-form">
+                <input type="hidden" id="rename-old-name">
+                <label for="rename-new-name">新しいフォルダ名:</label>
+                <input type="text" id="rename-new-name" placeholder="新しいフォルダ名を入力" required>
+                <button type="submit">変更</button>
+                <button type="button" class="cancel-btn">キャンセル</button>
+            </form>
+            <div id="folder-rename-status"></div>
+        </div>
+    </div>
+
     <!-- 画像アップロードフォーム -->
     <div id="upload-section">
         <button id="upload-btn">画像を追加</button>
@@ -95,6 +111,7 @@
       </div>
       <div class="folder_actions">
         <button class="view_folder_btn" data-folder="{{:path}}">開く</button>
+        <button class="rename_folder_btn" data-folder="{{:path}}">編集</button>
         <button class="delete_folder_btn" data-folder="{{:path}}">削除</button>
       </div>
     </div>

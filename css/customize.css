@@ -103,6 +103,20 @@
     background-color: #0b7dda;
 }
 
+.rename_folder_btn {
+    padding: 6px 12px;
+    background-color: #FF9800;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.rename_folder_btn:hover {
+    background-color: #F57C00;
+}
+
 .delete_folder_btn {
     padding: 6px 12px;
     background-color: #f44336;
@@ -182,6 +196,41 @@
 
 #folder-create-form button[type="submit"]:hover {
     background-color: #45a049;
+}
+
+#folder-rename-form {
+    margin-top: 20px;
+}
+
+#folder-rename-form label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: bold;
+}
+
+#rename-new-name {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+#folder-rename-form button[type="submit"] {
+    padding: 10px 20px;
+    background-color: #FF9800;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+#folder-rename-form button[type="submit"]:hover {
+    background-color: #F57C00;
 }
 
 .cancel-btn {
